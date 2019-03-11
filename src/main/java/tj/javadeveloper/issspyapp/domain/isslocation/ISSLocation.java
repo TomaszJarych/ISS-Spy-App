@@ -3,19 +3,11 @@ package tj.javadeveloper.issspyapp.domain.isslocation;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"iss_position", "message", "timestamp"})
-@Getter
-@Setter
-@RequiredArgsConstructor
-@Builder
 public class ISSLocation implements Serializable {
 
     @JsonProperty("message")
@@ -25,4 +17,30 @@ public class ISSLocation implements Serializable {
     @JsonProperty("iss_position")
     private GeoCoordinates issPosition;
 
+    public ISSLocation() {
+    }
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public Long getTimestamp() {
+        return this.timestamp;
+    }
+
+    public GeoCoordinates getIssPosition() {
+        return this.issPosition;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setIssPosition(GeoCoordinates issPosition) {
+        this.issPosition = issPosition;
+    }
 }

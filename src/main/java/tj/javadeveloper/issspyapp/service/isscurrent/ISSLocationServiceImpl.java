@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tj.javadeveloper.issspyapp.commons.utils.Constants;
 import tj.javadeveloper.issspyapp.domain.iplocation.IPLocationData;
+import tj.javadeveloper.issspyapp.domain.iplocation.IssPredictedPass;
 import tj.javadeveloper.issspyapp.domain.isslocation.ISSLocation;
 
 import static tj.javadeveloper.issspyapp.commons.utils.Constants.LOCATION_FROM_IP_URL;
@@ -28,19 +29,19 @@ public class ISSLocationServiceImpl implements ISSLocationService {
         return currentLocation;
     }
 
-    public String getPredictedOverheadPasses(String ipAddress) {
+    public IssPredictedPass getPredictedOverheadPasses(String ipAddress) {
         String ip = "178.43.255.43";
         IPLocationData locationData = restTemplate
                 .getForObject(LOCATION_FROM_IP_URL + ip, IPLocationData.class);
-        String data = predictedPassesRestTemplate(locationData.getLatitude(), locationData.getLongitude());
-        System.out.println(data);
-        return "";
+        IssPredictedPass data = predictedPassesRestTemplate(locationData.getLatitude(), locationData.getLongitude());
+
+        return data;
 
     }
 
-    private String predictedPassesRestTemplate(String latitude, String longitude) {
-        ResponseEntity<String> ISSData = restTemplate
-                .getForEntity(Constants.getISSPredictedPassesURL(latitude, longitude), String.class);
+    private IssPredictedPass predictedPassesRestTemplate(String latitude, String longitude) {
+        ResponseEntity<IssPredictedPass> ISSData = restTemplate
+                .getForEntity(Constants.getISSPredictedPassesURL(latitude, longitude), IssPredictedPass.class);
         return ISSData.getBody();
     }
 }
