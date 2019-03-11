@@ -16,7 +16,7 @@ public class AdditionalAppConfig {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setSupportedMediaTypes(Arrays.asList(new MediaType[]{MediaType.ALL, MediaType.APPLICATION_JSON}));
+        converter.setSupportedMediaTypes(Arrays.asList(new MediaType[]{MediaType.APPLICATION_JSON}));
         return builder.additionalMessageConverters(converter).build();
     }
 }

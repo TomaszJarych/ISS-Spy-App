@@ -5,8 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tj.javadeveloper.issspyapp.domain.ISSLocation;
-import tj.javadeveloper.issspyapp.service.isscurrent.IssCurrentLocationService;
+import tj.javadeveloper.issspyapp.domain.isslocation.ISSLocation;
+import tj.javadeveloper.issspyapp.service.isscurrent.ISSLocationServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,10 +17,10 @@ import static tj.javadeveloper.issspyapp.commons.utils.Constants.REST_API_DEFAUL
 @RequestMapping(path = REST_API_DEFAULT_PATH + "/iss")
 public class ISSRestController {
 
-    private final IssCurrentLocationService currentLocationService;
+    private final ISSLocationServiceImpl currentLocationService;
 
     @Autowired
-    public ISSRestController(IssCurrentLocationService currentLocationService) {
+    public ISSRestController(ISSLocationServiceImpl currentLocationService) {
         this.currentLocationService = currentLocationService;
     }
 
@@ -33,5 +33,18 @@ public class ISSRestController {
     public ResponseEntity getCurrentLocation() {
         ISSLocation current = currentLocationService.getCurrentLocation();
         return ResponseEntity.ok(current);
+    }
+
+    @GetMapping(path = "/predict")
+    public ResponseEntity getPredictedPassesOverUsersLocation(HttpServletRequest servletRequest) {
+        String remoteAddr = "";
+        if (servletRequest != null) {
+            remoteAddr = servletRequest.getHeader("X-FORWARDED-FOR");
+            if (remoteAddr == null || "".equals(remoteAddr)) {
+                remoteAddr = servletRequest.getRemoteAddr();
+            }
+        }
+        currentLocationService.getPredictedOverheadPasses(remoteAddr);
+        return ResponseEntity.ok("OK");
     }
 }
