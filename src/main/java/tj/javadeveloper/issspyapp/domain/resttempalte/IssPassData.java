@@ -1,4 +1,4 @@
-package tj.javadeveloper.issspyapp.domain.iplocation;
+package tj.javadeveloper.issspyapp.domain.resttempalte;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

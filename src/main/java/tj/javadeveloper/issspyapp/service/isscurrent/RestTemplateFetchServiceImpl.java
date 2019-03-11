@@ -5,21 +5,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tj.javadeveloper.issspyapp.commons.utils.Constants;
-import tj.javadeveloper.issspyapp.domain.iplocation.IPLocationData;
-import tj.javadeveloper.issspyapp.domain.iplocation.IssPredictedPass;
-import tj.javadeveloper.issspyapp.domain.isslocation.ISSLocation;
+import tj.javadeveloper.issspyapp.domain.resttempalte.IPLocationData;
+import tj.javadeveloper.issspyapp.domain.resttempalte.ISSLocation;
+import tj.javadeveloper.issspyapp.domain.resttempalte.IssPredictedPass;
 
 import static tj.javadeveloper.issspyapp.commons.utils.Constants.LOCATION_FROM_IP_URL;
 import static tj.javadeveloper.issspyapp.commons.utils.Constants.OPEN_NOTIFY_ISS_CURRENT_LOCATION_URL;
 
 @Service
-public class ISSLocationServiceImpl implements ISSLocationService {
+public class RestTemplateFetchServiceImpl implements RestTemplateFetchService {
 
 
     private final RestTemplate restTemplate;
 
     @Autowired
-    public ISSLocationServiceImpl(RestTemplate restTemplate) {
+    public RestTemplateFetchServiceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -29,14 +29,19 @@ public class ISSLocationServiceImpl implements ISSLocationService {
         return currentLocation;
     }
 
-    public IssPredictedPass getPredictedOverheadPasses(String ipAddress) {
+    public IssPredictedPass getPredictedPassFromCoordinates(String ipAddress) {
+        IPLocationData locationData = getLocationDataFromIP(ipAddress);
+        String userLatitude = locationData.getLatitude();
+        String userLongitude = locationData.getLongitude();
+        IssPredictedPass issPredictedPass = predictedPassesRestTemplate(userLatitude, userLongitude);
+        return issPredictedPass;
+    }
+
+    private IPLocationData getLocationDataFromIP(String ipAddress) {
         String ip = "178.43.255.43";
         IPLocationData locationData = restTemplate
                 .getForObject(LOCATION_FROM_IP_URL + ip, IPLocationData.class);
-        IssPredictedPass data = predictedPassesRestTemplate(locationData.getLatitude(), locationData.getLongitude());
-
-        return data;
-
+        return locationData;
     }
 
     private IssPredictedPass predictedPassesRestTemplate(String latitude, String longitude) {
