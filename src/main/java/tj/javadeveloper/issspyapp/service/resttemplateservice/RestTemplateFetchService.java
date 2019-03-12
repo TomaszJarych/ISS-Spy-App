@@ -1,4 +1,4 @@
-package tj.javadeveloper.issspyapp.service.isscurrent;
+package tj.javadeveloper.issspyapp.service.resttemplateservice;
 
 import tj.javadeveloper.issspyapp.domain.resttempalte.ISSLocation;
 import tj.javadeveloper.issspyapp.domain.resttempalte.IssPredictedPass;
@@ -6,8 +6,8 @@ import tj.javadeveloper.issspyapp.domain.resttempalte.IssPredictedPass;
 
 public interface RestTemplateFetchService {
 
-    public ISSLocation getCurrentLocation();
+    ISSLocation getCurrentLocation();
 
-    public IssPredictedPass getPredictedPassFromCoordinates(String ipAddress);
+    IssPredictedPass getPredictedPassFromCoordinates(String ipAddress);
 
 }

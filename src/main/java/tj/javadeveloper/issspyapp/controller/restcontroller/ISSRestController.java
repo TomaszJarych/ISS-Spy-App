@@ -5,7 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tj.javadeveloper.issspyapp.service.isscurrent.RestTemplateFetchServiceImpl;
+import tj.javadeveloper.issspyapp.domain.dto.LocationDto;
+import tj.javadeveloper.issspyapp.service.locationservice.LocationService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,11 +17,11 @@ import static tj.javadeveloper.issspyapp.commons.utils.Constants.REST_API_DEFAUL
 @RequestMapping(path = REST_API_DEFAULT_PATH + "/iss")
 public class ISSRestController {
 
-    private final RestTemplateFetchServiceImpl currentLocationService;
+    private final LocationService locationService;
 
     @Autowired
-    public ISSRestController(RestTemplateFetchServiceImpl currentLocationService) {
-        this.currentLocationService = currentLocationService;
+    public ISSRestController(LocationService locationService) {
+        this.locationService = locationService;
     }
 
     @GetMapping(path = "/hello", produces = APPLICATION_JSON_VALUE)
@@ -30,7 +31,9 @@ public class ISSRestController {
 
     @GetMapping(path = "/current", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity getCurrentLocation() {
-        return ResponseEntity.ok("OK");
+        LocationDto dto = locationService.getCurrentLocation();
+
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping(path = "/predict", produces = APPLICATION_JSON_VALUE)

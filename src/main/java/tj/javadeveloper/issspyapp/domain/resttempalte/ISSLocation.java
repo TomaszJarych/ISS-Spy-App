@@ -3,9 +3,14 @@ package tj.javadeveloper.issspyapp.domain.resttempalte;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import java.io.Serializable;
 
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"iss_position", "message", "timestamp"})
 public class ISSLocation implements Serializable {

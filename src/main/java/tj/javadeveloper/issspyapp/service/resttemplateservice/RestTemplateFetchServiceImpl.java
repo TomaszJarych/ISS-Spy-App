@@ -1,4 +1,4 @@
-package tj.javadeveloper.issspyapp.service.isscurrent;
+package tj.javadeveloper.issspyapp.service.resttemplateservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
