@@ -9,8 +9,8 @@ import lombok.Builder;
 
 import java.io.Serializable;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"iss_position", "message", "timestamp"})
 public class ISSLocation implements Serializable {

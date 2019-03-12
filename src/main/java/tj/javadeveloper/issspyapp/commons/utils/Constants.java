@@ -6,6 +6,8 @@ public class Constants {
 
     public static final String OPEN_NOTIFY_ISS_CURRENT_LOCATION_URL = "http://api.open-notify.org/iss-now.json";
 
+    public static final String OPEN_NOTIFY_ISS_CURRENT_CREW_URL = "http://api.open-notify.org/astros.json";
+
     private static final String OPEN_NOTIFY_ISS_PREDICTED_PASSES = "http://api.open-notify.org/iss-pass.json?";
 
     private static final String ISS_PREDICTED_PASSES_LATITUDE = "lat=";

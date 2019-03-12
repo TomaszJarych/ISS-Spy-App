@@ -3,10 +3,12 @@ package tj.javadeveloper.issspyapp.domain.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @Getter
 @NoArgsConstructor
-public class LocationDto extends BaseDto {
+public class LocationDto extends BaseDto implements Comparable<LocationDto> {
 
     private Long time;
     private Double latitude;
@@ -20,4 +22,9 @@ public class LocationDto extends BaseDto {
         this.longitude = longitude;
     }
 
+    @Override
+    public int compareTo(LocationDto o) {
+        return (int) (this.time - o.getTime());
+
+    }
 }

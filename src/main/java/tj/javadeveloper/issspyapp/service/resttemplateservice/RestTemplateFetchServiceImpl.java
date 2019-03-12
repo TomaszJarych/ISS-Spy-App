@@ -3,14 +3,15 @@ package tj.javadeveloper.issspyapp.service.resttemplateservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import tj.javadeveloper.issspyapp.commons.utils.Constants;
 import tj.javadeveloper.issspyapp.domain.resttempalte.IPLocationData;
 import tj.javadeveloper.issspyapp.domain.resttempalte.ISSLocation;
+import tj.javadeveloper.issspyapp.domain.resttempalte.IssCrewData;
 import tj.javadeveloper.issspyapp.domain.resttempalte.IssPredictedPass;
 
-import static tj.javadeveloper.issspyapp.commons.utils.Constants.LOCATION_FROM_IP_URL;
-import static tj.javadeveloper.issspyapp.commons.utils.Constants.OPEN_NOTIFY_ISS_CURRENT_LOCATION_URL;
+import static tj.javadeveloper.issspyapp.commons.utils.Constants.*;
 
 @Service
 public class RestTemplateFetchServiceImpl implements RestTemplateFetchService {
@@ -23,7 +24,7 @@ public class RestTemplateFetchServiceImpl implements RestTemplateFetchService {
         this.restTemplate = restTemplate;
     }
 
-    public ISSLocation getCurrentLocation() {
+    public ISSLocation getCurrentLocation() throws HttpClientErrorException {
         ISSLocation currentLocation =
                 restTemplate.getForObject(OPEN_NOTIFY_ISS_CURRENT_LOCATION_URL, ISSLocation.class);
         return currentLocation;
@@ -35,6 +36,12 @@ public class RestTemplateFetchServiceImpl implements RestTemplateFetchService {
         String userLongitude = locationData.getLongitude();
         IssPredictedPass issPredictedPass = predictedPassesRestTemplate(userLatitude, userLongitude);
         return issPredictedPass;
+    }
+
+    public IssCrewData getISSCrewData() throws HttpClientErrorException {
+        ResponseEntity<IssCrewData> crewDataResponseEntity =
+                restTemplate.getForEntity(OPEN_NOTIFY_ISS_CURRENT_CREW_URL, IssCrewData.class);
+        return crewDataResponseEntity.getBody();
     }
 
     private IPLocationData getLocationDataFromIP(String ipAddress) {

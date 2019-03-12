@@ -3,14 +3,21 @@ package tj.javadeveloper.issspyapp.repository;
 import org.springframework.stereotype.Repository;
 import tj.javadeveloper.issspyapp.domain.dto.LocationDto;
 
+import javax.annotation.PostConstruct;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class LocationRepository {
-    private AtomicLong atomicLong = new AtomicLong(1);
-    private Set<LocationDto> locationRepository = new HashSet<>();
+    private AtomicLong atomicLong;
+    private Set<LocationDto> locationRepository;
+
+    @PostConstruct
+    public void setUp() {
+        locationRepository = new HashSet<>();
+        atomicLong = new AtomicLong(1);
+    }
 
     public void saveLocation(LocationDto dto) {
         locationRepository.add(addIdToLocationDto(dto));
