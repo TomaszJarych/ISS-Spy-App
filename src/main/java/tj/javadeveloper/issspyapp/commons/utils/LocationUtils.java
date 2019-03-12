@@ -3,12 +3,10 @@ package tj.javadeveloper.issspyapp.commons.utils;
 
 import tj.javadeveloper.issspyapp.domain.dto.LocationDto;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 public class LocationUtils {
     private static final double EARTH_RADIUS_IN_KM = 6371;
@@ -33,18 +31,18 @@ public class LocationUtils {
         return distance;
     }
 
-    public static void main(String[] args) {
-        LocationDto dto1 = LocationDto.builder()
-                .latitude(40.366633)
-                .longitude(74.640832)
-                .build();
-        LocationDto dto2 = LocationDto.builder()
-                .latitude(42.443087)
-                .longitude(76.488707)
-                .build();
+    public static Double calculateTotalDistanceInKm(List<LocationDto> list) {
+        if (list.size() <= 1) {
+            return 0.0;
+        }
+        double result = 0.0;
+        for (int i = 1; i < list.size(); i++) {
+            ;
+            result += distanceInKm(list.get(i - 1), list.get(i));
 
-        Double result = distanceInKm(dto1, dto2) * 0.62;
-        MathContext mathContext = new MathContext(6, RoundingMode.HALF_UP);
-        System.out.println(BigDecimal.valueOf(result).round(mathContext));
+        }
+
+        return result;
+
     }
 }
