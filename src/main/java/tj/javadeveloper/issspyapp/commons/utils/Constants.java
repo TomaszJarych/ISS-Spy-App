@@ -12,7 +12,7 @@ public class Constants {
 
     private static final String ISS_PREDICTED_PASSES_LONGITUDE = "&lon=";
 
-    public static final String getISSPredictedPassesURL(String latitude, String longitude) {
+    public static String getISSPredictedPassesURL(String latitude, String longitude) {
 
         return OPEN_NOTIFY_ISS_PREDICTED_PASSES
                 + ISS_PREDICTED_PASSES_LATITUDE + latitude
