@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.*;
 
 import java.io.Serializable;
 
 @Builder
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -20,23 +21,4 @@ public class GeoCoordinates implements Serializable {
     private String latitude;
     @JsonProperty("longitude")
     private String longitude;
-
-    public GeoCoordinates() {
-    }
-
-    public String getLatitude() {
-        return this.latitude;
-    }
-
-    public String getLongitude() {
-        return this.longitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }
 }

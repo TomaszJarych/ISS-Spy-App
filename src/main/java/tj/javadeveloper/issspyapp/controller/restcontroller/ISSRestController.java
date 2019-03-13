@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tj.javadeveloper.issspyapp.commons.utils.LocationUtils;
+import tj.javadeveloper.issspyapp.domain.ResultWrapper;
+import tj.javadeveloper.issspyapp.domain.dto.CurrentSpeedResult;
 import tj.javadeveloper.issspyapp.domain.dto.LocationDto;
+import tj.javadeveloper.issspyapp.domain.dto.TotalDistanceResult;
 import tj.javadeveloper.issspyapp.domain.dto.UserLocationResult;
 import tj.javadeveloper.issspyapp.service.locationservice.LocationService;
 
@@ -37,7 +40,7 @@ public class ISSRestController {
     public ResponseEntity getCurrentLocation() {
         LocationDto dto = locationService.getCurrentLocation();
 
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.ok(ResultWrapper.ok(dto));
     }
 
     @GetMapping(path = "/predict", produces = APPLICATION_JSON_VALUE)
@@ -46,13 +49,13 @@ public class ISSRestController {
 
 
         // TODO complete this stub method
-        return ResponseEntity.ok("OK");
+        return ResponseEntity.ok(ResultWrapper.ok("OK"));
     }
 
 
     @GetMapping(path = "/speed", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity getCurrentIssSpeed() {
-        return ResponseEntity.ok("{\"currentSpeedInKmPerHour\" : " + locationService.getCurrentSpeed() + " }");
+        return ResponseEntity.ok(ResultWrapper.ok(new CurrentSpeedResult(locationService.getCurrentSpeed())));
 
     }
 
@@ -62,12 +65,12 @@ public class ISSRestController {
         UserLocationResult userLocationResult =
                 locationService.getDistanceBetweenUserLocationAndIss(ipAddres);
 
-        return ResponseEntity.ok(userLocationResult);
+        return ResponseEntity.ok(ResultWrapper.ok(userLocationResult));
     }
 
     @GetMapping(path = "/totalDistance", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity getTotalDistance() {
         long distance = Math.round(locationService.getTotalDistance());
-        return ResponseEntity.ok("{\"totalDistance\" : " + distance + "}");
+        return ResponseEntity.ok(ResultWrapper.ok(new TotalDistanceResult(distance)));
     }
 }

@@ -4,6 +4,7 @@ package tj.javadeveloper.issspyapp.domain.dto;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class BaseDto {

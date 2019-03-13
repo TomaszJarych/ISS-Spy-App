@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import tj.javadeveloper.issspyapp.commons.utils.Constants;
 import tj.javadeveloper.issspyapp.domain.resttempalte.IPLocationData;
@@ -24,13 +25,13 @@ public class RestTemplateFetchServiceImpl implements RestTemplateFetchService {
         this.restTemplate = restTemplate;
     }
 
-    public ISSLocation getCurrentLocation() throws HttpClientErrorException {
+    public ISSLocation getCurrentLocation() throws HttpClientErrorException, ResourceAccessException {
         ISSLocation currentLocation =
                 restTemplate.getForObject(OPEN_NOTIFY_ISS_CURRENT_LOCATION_URL, ISSLocation.class);
         return currentLocation;
     }
 
-    public IssPredictedPass getPredictedPassFromCoordinates(String ipAddress) {
+    public IssPredictedPass getPredictedPassFromCoordinates(String ipAddress) throws HttpClientErrorException, ResourceAccessException {
         IPLocationData locationData = getLocationDataFromIP(ipAddress);
         String userLatitude = locationData.getLatitude();
         String userLongitude = locationData.getLongitude();
@@ -44,7 +45,7 @@ public class RestTemplateFetchServiceImpl implements RestTemplateFetchService {
         return crewDataResponseEntity.getBody();
     }
 
-    public IPLocationData getLocationDataFromIP(String ipAddress) {
+    public IPLocationData getLocationDataFromIP(String ipAddress) throws HttpClientErrorException, ResourceAccessException {
         //TODO delete this hardcoded IP address -added only for test purpose
         String ip = "178.43.255.43";
         IPLocationData locationData = restTemplate
@@ -52,7 +53,7 @@ public class RestTemplateFetchServiceImpl implements RestTemplateFetchService {
         return locationData;
     }
 
-    private IssPredictedPass predictedPassesRestTemplate(String latitude, String longitude) {
+    private IssPredictedPass predictedPassesRestTemplate(String latitude, String longitude) throws HttpClientErrorException, ResourceAccessException {
         ResponseEntity<IssPredictedPass> ISSData = restTemplate
                 .getForEntity(Constants.getISSPredictedPassesURL(latitude, longitude), IssPredictedPass.class);
         return ISSData.getBody();

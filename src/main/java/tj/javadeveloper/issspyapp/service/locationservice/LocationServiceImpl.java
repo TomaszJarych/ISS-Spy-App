@@ -2,6 +2,7 @@ package tj.javadeveloper.issspyapp.service.locationservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tj.javadeveloper.issspyapp.commons.exceptions.ExternalServiceConnectionFailedException;
 import tj.javadeveloper.issspyapp.commons.utils.LocationUtils;
 import tj.javadeveloper.issspyapp.domain.dto.LocationDto;
 import tj.javadeveloper.issspyapp.domain.dto.UserLocationResult;
@@ -34,7 +35,14 @@ public class LocationServiceImpl implements LocationService {
     }
 
     public LocationDto getCurrentLocation() {
-        ISSLocation issLocation = fetchService.getCurrentLocation();
+        ISSLocation issLocation = null;
+        try {
+            issLocation = fetchService.getCurrentLocation();
+        } catch (Exception e) {
+            String message = "Cannot connect to external source";
+            logger.log(Level.WARNING, message);
+            throw new ExternalServiceConnectionFailedException(message);
+        }
         return locationMapper.toLocationDto(issLocation);
     }
 
