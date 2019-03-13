@@ -44,7 +44,8 @@ public class RestTemplateFetchServiceImpl implements RestTemplateFetchService {
         return crewDataResponseEntity.getBody();
     }
 
-    private IPLocationData getLocationDataFromIP(String ipAddress) {
+    public IPLocationData getLocationDataFromIP(String ipAddress) {
+        //TODO delete this hardcoded IP address -added only for test purpose
         String ip = "178.43.255.43";
         IPLocationData locationData = restTemplate
                 .getForObject(LOCATION_FROM_IP_URL + ip, IPLocationData.class);

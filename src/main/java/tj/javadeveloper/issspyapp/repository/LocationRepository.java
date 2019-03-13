@@ -4,18 +4,18 @@ import org.springframework.stereotype.Repository;
 import tj.javadeveloper.issspyapp.domain.dto.LocationDto;
 
 import javax.annotation.PostConstruct;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class LocationRepository {
     private AtomicLong atomicLong;
-    private Set<LocationDto> locationRepository;
+    private List<LocationDto> locationRepository;
 
     @PostConstruct
     public void setUp() {
-        locationRepository = new HashSet<>();
+        locationRepository = new ArrayList<>();
         atomicLong = new AtomicLong(1);
     }
 
@@ -33,7 +33,7 @@ public class LocationRepository {
         return locationDto;
     }
 
-    public Set<LocationDto> findAll() {
+    public List<LocationDto> findAll() {
         return this.locationRepository;
     }
 }

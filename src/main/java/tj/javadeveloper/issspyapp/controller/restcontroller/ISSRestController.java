@@ -5,7 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import tj.javadeveloper.issspyapp.commons.utils.LocationUtils;
 import tj.javadeveloper.issspyapp.domain.dto.LocationDto;
+import tj.javadeveloper.issspyapp.domain.dto.UserLocationResult;
 import tj.javadeveloper.issspyapp.service.locationservice.LocationService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +28,8 @@ public class ISSRestController {
 
     @GetMapping(path = "/hello", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity helloWorld(HttpServletRequest request) {
+
+        //TODO delete this endpoint
         return ResponseEntity.ok("Hello world FROM " + request.getRemoteAddr());
     }
 
@@ -38,20 +42,32 @@ public class ISSRestController {
 
     @GetMapping(path = "/predict", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity getPredictedPassesOverUsersLocation(HttpServletRequest servletRequest) {
-        String remoteAddr = "";
-        if (servletRequest != null) {
-            remoteAddr = servletRequest.getHeader("X-FORWARDED-FOR");
-            if (remoteAddr == null || "" .equals(remoteAddr)) {
-                remoteAddr = servletRequest.getRemoteAddr();
-            }
-        }
-        //TODO complete this stub method!!!!
+        String remoteAddr1 = LocationUtils.getIPFromRequest(servletRequest);
+
+
+        // TODO complete this stub method
         return ResponseEntity.ok("OK");
     }
+
 
     @GetMapping(path = "/speed", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity getCurrentIssSpeed() {
         return ResponseEntity.ok("{\"currentSpeedInKmPerHour\" : " + locationService.getCurrentSpeed() + " }");
 
+    }
+
+    @GetMapping(path = "/distanceFromUser", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity getDistanceFromIssAndUser(HttpServletRequest servletRequest) {
+        String ipAddres = LocationUtils.getIPFromRequest(servletRequest);
+        UserLocationResult userLocationResult =
+                locationService.getDistanceBetweenUserLocationAndIss(ipAddres);
+
+        return ResponseEntity.ok(userLocationResult);
+    }
+
+    @GetMapping(path = "/totalDistance", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity getTotalDistance() {
+        long distance = Math.round(locationService.getTotalDistance());
+        return ResponseEntity.ok("{\"totalDistance\" : " + distance + "}");
     }
 }

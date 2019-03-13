@@ -2,11 +2,13 @@ package tj.javadeveloper.issspyapp.domain.dto;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 @ToString
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class LocationDto extends BaseDto implements Comparable<LocationDto> {
+public class LocationDto extends BaseDto implements Comparable<LocationDto>, Serializable {
 
     private Long time;
     private Double latitude;

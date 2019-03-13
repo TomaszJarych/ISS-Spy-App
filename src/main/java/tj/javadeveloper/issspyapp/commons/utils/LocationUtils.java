@@ -3,6 +3,7 @@ package tj.javadeveloper.issspyapp.commons.utils;
 
 import tj.javadeveloper.issspyapp.domain.dto.LocationDto;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -62,5 +63,16 @@ public class LocationUtils {
                 .round(new MathContext(7, RoundingMode.HALF_UP));
 
         return result.doubleValue();
+    }
+
+    public static String getIPFromRequest(HttpServletRequest servletRequest) {
+        String remoteAddr = "";
+        if (servletRequest != null) {
+            remoteAddr = servletRequest.getHeader("X-FORWARDED-FOR");
+            if (remoteAddr == null || "".equals(remoteAddr)) {
+                remoteAddr = servletRequest.getRemoteAddr();
+            }
+        }
+        return remoteAddr;
     }
 }
