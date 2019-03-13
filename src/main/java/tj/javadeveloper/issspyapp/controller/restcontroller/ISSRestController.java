@@ -41,10 +41,17 @@ public class ISSRestController {
         String remoteAddr = "";
         if (servletRequest != null) {
             remoteAddr = servletRequest.getHeader("X-FORWARDED-FOR");
-            if (remoteAddr == null || "".equals(remoteAddr)) {
+            if (remoteAddr == null || "" .equals(remoteAddr)) {
                 remoteAddr = servletRequest.getRemoteAddr();
             }
         }
+        //TODO complete this stub method!!!!
         return ResponseEntity.ok("OK");
+    }
+
+    @GetMapping(path = "/speed", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity getCurrentIssSpeed() {
+        return ResponseEntity.ok("{\"currentSpeedInKmPerHour\" : " + locationService.getCurrentSpeed() + " }");
+
     }
 }
