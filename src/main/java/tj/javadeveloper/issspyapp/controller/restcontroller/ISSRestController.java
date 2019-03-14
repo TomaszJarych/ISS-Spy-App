@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tj.javadeveloper.issspyapp.commons.utils.LocationUtils;
 import tj.javadeveloper.issspyapp.domain.ResultWrapper;
-import tj.javadeveloper.issspyapp.domain.dto.CurrentSpeedResult;
-import tj.javadeveloper.issspyapp.domain.dto.LocationDto;
-import tj.javadeveloper.issspyapp.domain.dto.TotalDistanceResult;
-import tj.javadeveloper.issspyapp.domain.dto.UserLocationResult;
+import tj.javadeveloper.issspyapp.domain.dto.*;
 import tj.javadeveloper.issspyapp.service.locationservice.LocationService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,13 +26,6 @@ public class ISSRestController {
         this.locationService = locationService;
     }
 
-    @GetMapping(path = "/hello", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity helloWorld(HttpServletRequest request) {
-
-        //TODO delete this endpoint
-        return ResponseEntity.ok("Hello world FROM " + request.getRemoteAddr());
-    }
-
     @GetMapping(path = "/current", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity getCurrentLocation() {
         LocationDto dto = locationService.getCurrentLocation();
@@ -46,10 +36,8 @@ public class ISSRestController {
     @GetMapping(path = "/predict", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity getPredictedPassesOverUsersLocation(HttpServletRequest servletRequest) {
         String remoteAddr1 = LocationUtils.getIPFromRequest(servletRequest);
-
-
-        // TODO complete this stub method
-        return ResponseEntity.ok(ResultWrapper.ok("OK"));
+        PredictedPassDto passesDto = locationService.getPredictedPassOverLocation(remoteAddr1);
+        return ResponseEntity.ok(ResultWrapper.ok(passesDto));
     }
 
 

@@ -2,13 +2,19 @@ package tj.javadeveloper.issspyapp.service.locationservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import tj.javadeveloper.issspyapp.commons.exceptions.ExternalServiceConnectionFailedException;
+import tj.javadeveloper.issspyapp.commons.exceptions.InternalServerCustomException;
 import tj.javadeveloper.issspyapp.commons.utils.LocationUtils;
 import tj.javadeveloper.issspyapp.domain.dto.LocationDto;
+import tj.javadeveloper.issspyapp.domain.dto.PredictedPassDto;
 import tj.javadeveloper.issspyapp.domain.dto.UserLocationResult;
 import tj.javadeveloper.issspyapp.domain.resttempalte.IPLocationData;
 import tj.javadeveloper.issspyapp.domain.resttempalte.ISSLocation;
+import tj.javadeveloper.issspyapp.domain.resttempalte.IssPredictedPass;
 import tj.javadeveloper.issspyapp.mapper.LocationMapper;
+import tj.javadeveloper.issspyapp.mapper.PredictedPassMapper;
 import tj.javadeveloper.issspyapp.repository.LocationRepository;
 import tj.javadeveloper.issspyapp.service.resttemplateservice.RestTemplateFetchService;
 
@@ -25,17 +31,21 @@ public class LocationServiceImpl implements LocationService {
     private final RestTemplateFetchService fetchService;
     private final LocationMapper locationMapper;
     private final LocationRepository locationRepository;
+    private final PredictedPassMapper predictedPassMapper;
 
-    @Autowired
     public LocationServiceImpl(RestTemplateFetchService fetchService, LocationMapper locationMapper,
-                               LocationRepository locationRepository) {
+                               LocationRepository locationRepository, PredictedPassMapper predictedPassMapper) {
         this.fetchService = fetchService;
         this.locationMapper = locationMapper;
         this.locationRepository = locationRepository;
+        this.predictedPassMapper = predictedPassMapper;
     }
 
+    @Autowired
+
+
     public LocationDto getCurrentLocation() {
-        ISSLocation issLocation = null;
+        ISSLocation issLocation;
         try {
             issLocation = fetchService.getCurrentLocation();
         } catch (Exception e) {
@@ -54,10 +64,12 @@ public class LocationServiceImpl implements LocationService {
             Thread.sleep(5000);
             issLocation2 = fetchService.getCurrentLocation();
         } catch (InterruptedException e) {
-            logger.log(Level.WARNING, "InterruptedException has been thrown");
-            issLocation1 = new ISSLocation();
-            issLocation2 = new ISSLocation();
-            //TODO throw custom exception
+            logger.log(Level.WARNING, "InterruptedException has been thrown IN getCurrentSpeed() Method");
+            throw new InternalServerCustomException();
+        } catch (Exception e) {
+            String message = "Cannot connect to external source";
+            logger.log(Level.WARNING, message);
+            throw new ExternalServiceConnectionFailedException(message);
         }
         LocationDto location1 = locationMapper.toLocationDto(issLocation1);
         LocationDto location2 = locationMapper.toLocationDto(issLocation2);
@@ -67,23 +79,34 @@ public class LocationServiceImpl implements LocationService {
     }
 
     public UserLocationResult getDistanceBetweenUserLocationAndIss(String ipAddress) {
-        IPLocationData userLocation = fetchService.getLocationDataFromIP(ipAddress);
-        LocationDto issCurrentLocation = locationMapper.toLocationDto(fetchService.getCurrentLocation());
-        LocationDto userCoordinates = LocationDto.builder()
-                .latitude(Double.parseDouble(userLocation.getLatitude()))
-                .longitude(Double.parseDouble(userLocation.getLongitude()))
-                .build();
+        UserLocationResult result;
+        try {
+            IPLocationData userLocation = fetchService.getLocationDataFromIP(ipAddress);
+            LocationDto issCurrentLocation = locationMapper.toLocationDto(fetchService.getCurrentLocation());
+            LocationDto userCoordinates = LocationDto.builder()
+                    .latitude(Double.parseDouble(userLocation.getLatitude()))
+                    .longitude(Double.parseDouble(userLocation.getLongitude()))
+                    .build();
 
-        double distance = Math.round(distanceInKm(issCurrentLocation, userCoordinates));
+            double distance = Math.round(distanceInKm(issCurrentLocation, userCoordinates));
 
-        UserLocationResult result = UserLocationResult.builder()
-                .country(userLocation.getCountry())
-                .locationName(userLocation.getCityName())
-                .distance(distance)
-                .latitude(userLocation.getLatitude())
-                .longitude(userLocation.getLongitude())
-                .time(issCurrentLocation.getTime())
-                .build();
+            result = UserLocationResult.builder()
+                    .country(userLocation.getCountry())
+                    .locationName(userLocation.getCityName())
+                    .distance(distance)
+                    .latitude(userLocation.getLatitude())
+                    .longitude(userLocation.getLongitude())
+                    .time(issCurrentLocation.getTime())
+                    .build();
+        } catch (HttpClientErrorException e) {
+            String message = "Invalid external source address";
+            logger.log(Level.WARNING, message);
+            throw new ExternalServiceConnectionFailedException(message);
+        } catch (ResourceAccessException e) {
+            String message = "Cannot connect to external source";
+            logger.log(Level.WARNING, message);
+            throw new ExternalServiceConnectionFailedException(message);
+        }
         return result;
     }
 
@@ -91,5 +114,24 @@ public class LocationServiceImpl implements LocationService {
         List<LocationDto> issPositions = locationRepository.findAll();
         Double distance = LocationUtils.calculateTotalDistanceInKm(issPositions);
         return distance;
+    }
+
+    public PredictedPassDto getPredictedPassOverLocation(String ipAddress) {
+        PredictedPassDto passesDto;
+        try {
+            IPLocationData userLocation = fetchService.getLocationDataFromIP(ipAddress);
+            IssPredictedPass issPredictedPass = fetchService.getPredictedPassFromCoordinates(ipAddress);
+            passesDto = predictedPassMapper.toPredictedPassDto(issPredictedPass);
+
+        } catch (HttpClientErrorException e) {
+            String message = "Invalid external source address";
+            logger.log(Level.WARNING, message);
+            throw new ExternalServiceConnectionFailedException(message);
+        } catch (ResourceAccessException e) {
+            String message = "Cannot connect to external source";
+            logger.log(Level.WARNING, message);
+            throw new ExternalServiceConnectionFailedException(message);
+        }
+        return passesDto;
     }
 }
