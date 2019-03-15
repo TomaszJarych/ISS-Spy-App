@@ -83,7 +83,7 @@ class LocationUtilsTest {
                 .latitude(42.443087)
                 .longitude(76.488707)
                 .build();
-        Double expected = 277.5;
+        double expected = 277.5;
 
         //when
         Double actual = LocationUtils.distanceInKm(location1, location2);
@@ -109,7 +109,7 @@ class LocationUtilsTest {
                 .latitude(40.366633)
                 .longitude(74.640832)
                 .build();
-        Double expected = 277.5 * 2;
+        double expected = 277.5 * 2;
         List<LocationDto> locationList = Arrays.asList(location1, location2, location3);
         List<LocationDto> locationList2 = Arrays.asList(location1);
         List<LocationDto> locationList3 = Arrays.asList(location1, location3);
@@ -145,10 +145,10 @@ class LocationUtilsTest {
                 .time(Timestamp.valueOf(timePlusOneHour).toInstant().getEpochSecond())
                 .build();
 
-        Double expected = 277.5;
+        double expected = 277.5;
 
         //when
-        Double actual = LocationUtils.calculateCurrentSpeedInKmPerHour(location1, location2);
+        double actual = LocationUtils.calculateCurrentSpeedInKmPerHour(location1, location2);
 
         //then
         assertNotNull(actual);

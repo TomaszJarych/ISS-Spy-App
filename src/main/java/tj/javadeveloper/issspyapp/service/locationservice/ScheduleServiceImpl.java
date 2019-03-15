@@ -18,9 +18,9 @@ import java.util.logging.Logger;
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
 
-    private RestTemplateFetchService fetchService;
-    private LocationRepository locationRepository;
-    private LocationMapper locationMapper;
+    private final RestTemplateFetchService fetchService;
+    private final LocationRepository locationRepository;
+    private final LocationMapper locationMapper;
 
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 

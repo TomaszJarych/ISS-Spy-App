@@ -84,7 +84,7 @@ public class LocationUtils {
         }
         LocationDto dto;
         try {
-            Double latitude = Double.parseDouble(lat);
+            double latitude = Double.parseDouble(lat);
             Double longitude = Double.parseDouble(lon);
 
             if (latDir.toUpperCase().matches("SOUTH")) {
@@ -114,24 +114,18 @@ public class LocationUtils {
         String latDirection = latDir.toUpperCase();
         String lonDirection = latDir.toUpperCase();
 
-        if (lat == "" || lon == "" || Objects.isNull(lat) || Objects.isNull(lon) || latDir == "" || Objects.isNull(latDir) ||
-                lonDir == "" || Objects.isNull(lonDir)) {
+        if (lat.equals("") || lon.equals("") || Objects.isNull(lat) || Objects.isNull(lon) || latDir.equals("") || Objects.isNull(latDir) ||
+                lonDir.equals("") || Objects.isNull(lonDir)) {
             return true;
         }
-        if (!(latDirection.matches("(NORTH)|(SOUTH)") || lonDirection.matches("(WEST)|(EAST)"))) {
-            return true;
-        }
-        return false;
+        return !(latDirection.matches("(NORTH)|(SOUTH)") || lonDirection.matches("(WEST)|(EAST)"));
     }
 
     private static boolean checkCoordinatesRange(Double latitude, Double longitude) {
         if (latitude > 90.00 || latitude < -90.00) {
             return true;
         }
-        if (longitude > 180.00 || longitude < -180.00) {
-            return true;
-        }
+        return longitude > 180.00 || longitude < -180.00;
 
-        return false;
     }
 }
