@@ -10,7 +10,8 @@ public class IssSpyAppApplication {
         SpringApplication.run(IssSpyAppApplication.class, args);
     }
 
-    // TODO add csrf disable
+    // TODO add LocationEntity and JPA Repository for H2
+    // TODO add H2 config
     // TODO distance unit converter
 
 }

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static tj.javadeveloper.issspyapp.commons.utils.Constants.REST_API_DEFAULT_PATH;
 
+
 @RestController
 @RequestMapping(path = REST_API_DEFAULT_PATH + "/iss")
 public class ISSRestController {
