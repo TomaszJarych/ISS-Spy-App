@@ -42,8 +42,6 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Autowired
-
-
     public LocationDto getCurrentLocation() {
         ISSLocation issLocation;
         try {
@@ -133,5 +131,26 @@ public class LocationServiceImpl implements LocationService {
             throw new ExternalServiceConnectionFailedException(message);
         }
         return passesDto;
+    }
+
+    public UserLocationResult getDistanceFromGivenLocation(String lat, String latDir, String lon, String lonDir) {
+        UserLocationResult result;
+        try {
+            LocationDto issCurrentLocation = locationMapper.toLocationDto(fetchService.getCurrentLocation());
+            LocationDto givenLocation = LocationUtils.convertDataToLocationDto(lat, latDir, lon, lonDir);
+            double distance = Math.round(distanceInKm(issCurrentLocation, givenLocation));
+
+            result = UserLocationResult.builder()
+                    .latitude(givenLocation.getLatitude() + "")
+                    .longitude(givenLocation.getLongitude() + "")
+                    .distance(distance)
+                    .time(issCurrentLocation.getTime())
+                    .build();
+        } catch (Exception e) {
+            String message = "Cannot connect to external source";
+            logger.log(Level.WARNING, message);
+            throw new ExternalServiceConnectionFailedException(message);
+        }
+        return result;
     }
 }

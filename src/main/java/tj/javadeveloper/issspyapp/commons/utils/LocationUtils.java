@@ -1,6 +1,7 @@
 package tj.javadeveloper.issspyapp.commons.utils;
 
 
+import tj.javadeveloper.issspyapp.commons.exceptions.InvalidLocationDataException;
 import tj.javadeveloper.issspyapp.domain.dto.LocationDto;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Objects;
 
 public class LocationUtils {
     private static final double EARTH_RADIUS_IN_KM = 6371;
@@ -74,5 +76,62 @@ public class LocationUtils {
             }
         }
         return remoteAddr;
+    }
+
+    public static LocationDto convertDataToLocationDto(String lat, String latDir, String lon, String lonDir) {
+        if (locationDataValidation(lat, latDir, lon, lonDir)) {
+            throw new InvalidLocationDataException("Wrong location data have been inserted");
+        }
+        LocationDto dto;
+        try {
+            Double latitude = Double.parseDouble(lat);
+            Double longitude = Double.parseDouble(lon);
+
+            if (latDir.toUpperCase().matches("SOUTH")) {
+                latitude *= -1;
+            }
+            if (lonDir.toUpperCase().matches("WEST")) {
+                latitude *= -1;
+            }
+
+            if (checkCoordinatesRange(latitude, longitude)) {
+                throw new InvalidLocationDataException("Coordinates are beyond ranges ");
+            }
+            dto = LocationDto.builder()
+                    .latitude(latitude)
+                    .longitude(longitude)
+                    .time(Instant.now().getEpochSecond())
+                    .build();
+        } catch (NumberFormatException e) {
+            throw new InvalidLocationDataException("Wrong location data have been inserted");
+        }
+
+
+        return dto;
+    }
+
+    private static boolean locationDataValidation(String lat, String latDir, String lon, String lonDir) {
+        String latDirection = latDir.toUpperCase();
+        String lonDirection = latDir.toUpperCase();
+
+        if (lat == "" || lon == "" || Objects.isNull(lat) || Objects.isNull(lon) || latDir == "" || Objects.isNull(latDir) ||
+                lonDir == "" || Objects.isNull(lonDir)) {
+            return true;
+        }
+        if (!(latDirection.matches("(NORTH)|(SOUTH)") || lonDirection.matches("(WEST)|(EAST)"))) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean checkCoordinatesRange(Double latitude, Double longitude) {
+        if (latitude > 90.00 || latitude < -90.00) {
+            return true;
+        }
+        if (longitude > 180.00 || longitude < -180.00) {
+            return true;
+        }
+
+        return false;
     }
 }
