@@ -22,4 +22,6 @@ public class Constants {
     }
 
     public static final String LOCATION_FROM_IP_URL = "http://extreme-ip-lookup.com/json/";
+
+
 }

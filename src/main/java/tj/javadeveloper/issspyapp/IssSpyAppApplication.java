@@ -11,9 +11,6 @@ public class IssSpyAppApplication {
     }
 
     // TODO add csrf disable
-    // TODO add custom errors
-    // TODO add custom data for location
-    // TODO geographical coordinate converter
     // TODO distance unit converter
 
 }
