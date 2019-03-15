@@ -17,4 +17,6 @@ public interface LocationService {
     PredictedPassDto getPredictedPassOverLocation(String ipAddress);
 
     UserLocationResult getDistanceFromGivenLocation(String lat, String latDir, String lon, String lonDir);
+
+    PredictedPassDto getPredictedPassesFromGivenLocation(String lat, String latDir, String lon, String lonDir);
 }

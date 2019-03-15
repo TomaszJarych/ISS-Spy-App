@@ -53,7 +53,7 @@ public class RestTemplateFetchServiceImpl implements RestTemplateFetchService {
         return locationData;
     }
 
-    private IssPredictedPass predictedPassesRestTemplate(String latitude, String longitude) throws HttpClientErrorException, ResourceAccessException {
+    public IssPredictedPass predictedPassesRestTemplate(String latitude, String longitude) throws HttpClientErrorException, ResourceAccessException {
         ResponseEntity<IssPredictedPass> ISSData = restTemplate
                 .getForEntity(Constants.getISSPredictedPassesURL(latitude, longitude), IssPredictedPass.class);
         return ISSData.getBody();

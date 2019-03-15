@@ -72,4 +72,14 @@ public class ISSRestController {
         UserLocationResult result = locationService.getDistanceFromGivenLocation(lat, latDir, lon, lonDir);
         return ResponseEntity.ok(ResultWrapper.ok(result));
     }
+
+    @GetMapping(path = "/predictFromCoordinates", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity getOverheadPassesFromGivenCoorinates
+            (@RequestParam(name = "lat", required = true) String lat,
+             @RequestParam(name = "latDir", required = true) String latDir,
+             @RequestParam(name = "lon", required = true) String lon,
+             @RequestParam(name = "lonDir") String lonDir) {
+        PredictedPassDto passesDto = locationService.getPredictedPassesFromGivenLocation(lat, latDir, lon, lonDir);
+        return ResponseEntity.ok(ResultWrapper.ok(passesDto));
+    }
 }

@@ -16,4 +16,6 @@ public interface RestTemplateFetchService {
 
     IssCrewData getISSCrewData();
 
+    IssPredictedPass predictedPassesRestTemplate(String latitude, String longitude);
+
 }

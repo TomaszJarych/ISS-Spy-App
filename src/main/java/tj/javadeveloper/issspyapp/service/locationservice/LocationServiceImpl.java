@@ -146,11 +146,31 @@ public class LocationServiceImpl implements LocationService {
                     .distance(distance)
                     .time(issCurrentLocation.getTime())
                     .build();
-        } catch (Exception e) {
+        } catch (HttpClientErrorException | ResourceAccessException e) {
             String message = "Cannot connect to external source";
             logger.log(Level.WARNING, message);
             throw new ExternalServiceConnectionFailedException(message);
         }
         return result;
+    }
+
+    public PredictedPassDto getPredictedPassesFromGivenLocation(String lat, String latDir, String lon, String lonDir) {
+        PredictedPassDto passesDto;
+        try {
+            LocationDto locationDto = LocationUtils.convertDataToLocationDto(lat, latDir, lon, lonDir);
+            IssPredictedPass issPredictedPass = fetchService.predictedPassesRestTemplate(locationDto.getLatitude().toString(),
+                    locationDto.getLongitude().toString());
+            passesDto = predictedPassMapper.toPredictedPassDto(issPredictedPass);
+        } catch (HttpClientErrorException e) {
+            String message = "Invalid external source address";
+            logger.log(Level.WARNING, message);
+            throw new ExternalServiceConnectionFailedException(message);
+        } catch (ResourceAccessException e) {
+            String message = "Cannot connect to external source";
+            logger.log(Level.WARNING, message);
+            throw new ExternalServiceConnectionFailedException(message);
+        }
+
+        return passesDto;
     }
 }

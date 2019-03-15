@@ -17,7 +17,11 @@ import java.util.Objects;
 public class LocationUtils {
     private static final double EARTH_RADIUS_IN_KM = 6371;
     private static final int KM_TO_METERS = 1000;
-    private static final double METERS_PER_SECUND_TO_KM_PER_HOUR = 3.6;
+    private static final double METERS_PER_SECOND_TO_KM_PER_HOUR = 3.6;
+    private static final double MAX_LONGITUDE = 180.00;
+    private static final double MAX_LATITUDE = 90.00;
+    private static final double MIN_LATITUDE = -90.00;
+    private static final double MIN_LONGITUDE = -180.00;
 
     public static LocalDateTime toLocalDateTimeFromTimestamp(Long timestamp) {
         LocalDateTime dateTime =
@@ -61,7 +65,7 @@ public class LocationUtils {
         long calculateTimeInSeconds = location2.getTime() - location1.getTime();
         double calculateTotalSpeedInMetersPerSecond = distanceInMeters / calculateTimeInSeconds;
 
-        BigDecimal result = BigDecimal.valueOf(calculateTotalSpeedInMetersPerSecond * METERS_PER_SECUND_TO_KM_PER_HOUR)
+        BigDecimal result = BigDecimal.valueOf(calculateTotalSpeedInMetersPerSecond * METERS_PER_SECOND_TO_KM_PER_HOUR)
                 .round(new MathContext(7, RoundingMode.HALF_UP));
 
         return result.doubleValue();
@@ -106,7 +110,6 @@ public class LocationUtils {
             throw new InvalidLocationDataException("Wrong location data have been inserted");
         }
 
-
         return dto;
     }
 
@@ -114,18 +117,17 @@ public class LocationUtils {
         String latDirection = latDir.toUpperCase();
         String lonDirection = latDir.toUpperCase();
 
-        if (lat.equals("") || lon.equals("") || Objects.isNull(lat) || Objects.isNull(lon) || latDir.equals("") || Objects.isNull(latDir) ||
-                lonDir.equals("") || Objects.isNull(lonDir)) {
-            return true;
-        }
-        return !(latDirection.matches("(NORTH)|(SOUTH)") || lonDirection.matches("(WEST)|(EAST)"));
+        return !(latDirection.matches("(NORTH)|(SOUTH)") || lonDirection.matches("(WEST)|(EAST)")) ||
+                instertedDataNotBlankOrNotNull(lat, latDir, lon, lonDir);
+    }
+
+    private static boolean instertedDataNotBlankOrNotNull(String lat, String latDir, String lon, String lonDir) {
+        return lat.equals("") || lon.equals("") || Objects.isNull(lat) || Objects.isNull(lon) || latDir.equals("") || Objects.isNull(latDir) ||
+                lonDir.equals("") || Objects.isNull(lonDir);
     }
 
     private static boolean checkCoordinatesRange(Double latitude, Double longitude) {
-        if (latitude > 90.00 || latitude < -90.00) {
-            return true;
-        }
-        return longitude > 180.00 || longitude < -180.00;
+        return latitude > MAX_LATITUDE || latitude < MIN_LATITUDE || longitude > MAX_LONGITUDE || longitude < MIN_LONGITUDE;
 
     }
 }
