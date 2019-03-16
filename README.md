@@ -116,7 +116,7 @@ Shows current distance between User location (based on IP address) and point ove
 }
 ````
 
-####4. */api/v1/iss/totalDistance*
+####5. */api/v1/iss/totalDistance*
 Total mileage of the ISS from the start of the application.
 ````json
 {
@@ -127,3 +127,60 @@ Total mileage of the ISS from the start of the application.
   }
 }
 ````
+
+####5. */api/v1/iss/distanceFromLocation?lat=<LAT_DEGREES>&latDir=<LAT_DIRECTION>&lon=<LON_DEGREES>&lonDir=<LON_DIRECTION>*
+Shows current distance between User location (based on given coordinates) and point over which the ISS is.
+
+Input | Description| Query string| Range | VALUES
+--------|---------|-----|---------|----------|
+LAT_DEGREES| The latitude of the place to predict passes | *lat* | 0-90| DECIMAL 
+LAT_DIRECTION | Specifies the north–south position | *latDir* | |NORTH or SOUTH
+LON_DEGREES | The longitude of the place to predict passes| *lon* | 0-180| DECIMAL
+LON_DIRECTION|Specifies the east–west position of a point| *lonDir*| | EAST or WEST
+
+
+**IMPORTANT!**
+All above data is required!
+````json
+{
+  "message": "success",
+  "timestamp": UNIX_TIME_STAMP,
+  "result": {
+    "distance": DISTANCE_IN_KM,
+    "time": UNIX_TIME_STAMP,
+    "latitude": USERS_LATITUDE,
+    "longitude": USERS_LONGITUDE
+  }
+}
+````
+
+####6. */api/v1/iss/predictFromCoordinates?lat=<LAT_DEGREES>&latDir=<LAT_DIRECTION>&lon=<LON_DEGREES>&lonDir=<LON_DIRECTION>*
+Show predicted overhead passes based on based on given coordinates
+
+Input | Description| Query string| Range | VALUES
+--------|---------|-----|---------|----------|
+LAT_DEGREES| The latitude of the place to predict passes | *lat* | 0-90| DECIMAL 
+LAT_DIRECTION | Specifies the north–south position | *latDir* | |NORTH or SOUTH
+LON_DEGREES | The longitude of the place to predict passes| *lon* | 0-180| DECIMAL
+LON_DIRECTION|Specifies the east–west position of a point| *lonDir*| | EAST or WEST
+
+
+**IMPORTANT!**
+All above data is required!
+````json
+{
+  "message": "success",
+  "timestamp": UNIX_TIME_STAMP,
+  "result": {
+    "passesNumber": NUMBER_OF_PREDICTED_PASSES,
+    "latitude": USERS_LATITUDE,
+    "longitude": USERS_LONGITUDE,
+    "passesData": [
+      {
+        "duration": DURATION_IN_SECONDS,
+        "risetime": TIME_IN_LOCALIZADE_ZONE_ID_FOR_POLAND
+      }
+    ]
+  }
+}
+
