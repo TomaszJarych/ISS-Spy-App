@@ -10,17 +10,19 @@ import tj.javadeveloper.issspyapp.commons.utils.LocationUtils;
 import tj.javadeveloper.issspyapp.domain.dto.LocationDto;
 import tj.javadeveloper.issspyapp.domain.dto.PredictedPassDto;
 import tj.javadeveloper.issspyapp.domain.dto.UserLocationResult;
+import tj.javadeveloper.issspyapp.domain.entity.LocationEntity;
 import tj.javadeveloper.issspyapp.domain.resttempalte.IPLocationData;
 import tj.javadeveloper.issspyapp.domain.resttempalte.ISSLocation;
 import tj.javadeveloper.issspyapp.domain.resttempalte.IssPredictedPass;
 import tj.javadeveloper.issspyapp.mapper.LocationMapper;
 import tj.javadeveloper.issspyapp.mapper.PredictedPassMapper;
-import tj.javadeveloper.issspyapp.repository.LocationRepository;
+import tj.javadeveloper.issspyapp.repository.LocationEntityRepository;
 import tj.javadeveloper.issspyapp.service.resttemplateservice.RestTemplateFetchService;
 
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static tj.javadeveloper.issspyapp.commons.utils.LocationUtils.distanceInKm;
 
@@ -30,11 +32,11 @@ public class LocationServiceImpl implements LocationService {
 
     private final RestTemplateFetchService fetchService;
     private final LocationMapper locationMapper;
-    private final LocationRepository locationRepository;
+    private final LocationEntityRepository locationRepository;
     private final PredictedPassMapper predictedPassMapper;
 
     public LocationServiceImpl(RestTemplateFetchService fetchService, LocationMapper locationMapper,
-                               LocationRepository locationRepository, PredictedPassMapper predictedPassMapper) {
+                               LocationEntityRepository locationRepository, PredictedPassMapper predictedPassMapper) {
         this.fetchService = fetchService;
         this.locationMapper = locationMapper;
         this.locationRepository = locationRepository;
@@ -109,7 +111,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     public Double getTotalDistance() {
-        List<LocationDto> issPositions = locationRepository.findAll();
+        List<LocationDto> issPositions = locationDtoList(locationRepository.findAll());
         Double distance = LocationUtils.calculateTotalDistanceInKm(issPositions);
         return distance;
     }
@@ -172,5 +174,12 @@ public class LocationServiceImpl implements LocationService {
         }
 
         return passesDto;
+    }
+
+    private List<LocationDto> locationDtoList(List<LocationEntity> list) {
+        return list.stream().map(locationMapper::fromLocationEntityToLocationDto)
+                .sorted()
+                .collect(Collectors.toList());
+
     }
 }

@@ -1,6 +1,5 @@
 package tj.javadeveloper.issspyapp.repository;
 
-import org.springframework.stereotype.Repository;
 import tj.javadeveloper.issspyapp.domain.dto.LocationDto;
 
 import javax.annotation.PostConstruct;
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-@Repository
+
 public class LocationRepository {
     private AtomicLong atomicLong;
     private List<LocationDto> locationRepository;

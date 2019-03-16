@@ -17,7 +17,7 @@ import tj.javadeveloper.issspyapp.domain.resttempalte.IPLocationData;
 import tj.javadeveloper.issspyapp.domain.resttempalte.ISSLocation;
 import tj.javadeveloper.issspyapp.mapper.LocationMapper;
 import tj.javadeveloper.issspyapp.mapper.PredictedPassMapper;
-import tj.javadeveloper.issspyapp.repository.LocationRepository;
+import tj.javadeveloper.issspyapp.repository.LocationEntityRepository;
 import tj.javadeveloper.issspyapp.service.resttemplateservice.RestTemplateFetchService;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,7 +28,7 @@ class LocationServiceImplTest {
     @Mock
     private RestTemplateFetchService fetchService;
     @Mock
-    private LocationRepository locationRepository;
+    private LocationEntityRepository locationRepository;
 
     private PredictedPassMapper predictedPassMapper;
     private LocationMapper locationMapper;
@@ -163,7 +163,7 @@ class LocationServiceImplTest {
         UserLocationResult expected = UserLocationResult.builder()
                 .latitude("42.443087")
                 .longitude("76.488707")
-                .distance(Double.valueOf(Math.round(277.5)))
+                .distance(278.0)
                 .build();
         when(fetchService.getLocationDataFromIP(Mockito.anyString())).thenReturn(ipLocationDataStub);
         when(fetchService.getCurrentLocation()).thenReturn(issLocation);
@@ -177,6 +177,20 @@ class LocationServiceImplTest {
                 () -> assertEquals(expected.getLongitude(), actual.getLongitude()),
                 () -> assertEquals(expected.getDistance(), actual.getDistance(), 0.1)
         );
+
+    }
+
+    @Test
+    void getDistanceBetweenUserLocationAndIssShouldThrowsExceptions() {
+        //when
+        when(fetchService.getLocationDataFromIP(Mockito.anyString()))
+                .thenThrow(ResourceAccessException.class, HttpClientErrorException.class);
+        //then
+        assertAll(
+                () -> assertThrows(ExternalServiceConnectionFailedException.class,
+                        () -> service.getDistanceBetweenUserLocationAndIss("178.43.255.43")),
+                () -> assertThrows(ExternalServiceConnectionFailedException.class,
+                        () -> service.getDistanceBetweenUserLocationAndIss("178.43.255.43")));
 
     }
 
