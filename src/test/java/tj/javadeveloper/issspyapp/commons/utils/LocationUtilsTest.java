@@ -151,7 +151,6 @@ class LocationUtilsTest {
         double actual = LocationUtils.calculateCurrentSpeedInKmPerHour(location1, location2);
 
         //then
-        assertNotNull(actual);
         assertEquals(expected, actual, 0.1);
     }
 }

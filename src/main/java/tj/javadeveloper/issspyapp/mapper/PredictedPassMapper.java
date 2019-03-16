@@ -22,6 +22,6 @@ public interface PredictedPassMapper {
     PredictedPassDto toPredictedPassDto(IssPredictedPass input);
 
     default LocalDateTime convertTimeStampToLocalDateTime(Long risetime) {
-        return LocalDateTime.ofInstant(Instant.ofEpochSecond(risetime), ZoneId.systemDefault());
+        return LocalDateTime.ofInstant(Instant.ofEpochSecond(risetime), ZoneId.of("Europe/Warsaw"));
     }
 }
