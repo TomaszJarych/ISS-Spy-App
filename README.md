@@ -140,7 +140,7 @@ LON_DIRECTION|Specifies the east–west position of a point| *lonDir*| | EAST or
 
 
 **IMPORTANT!**
-All above data is required!
+All above data are required!
 ````json
 {
   "message": "success",
@@ -166,7 +166,7 @@ LON_DIRECTION|Specifies the east–west position of a point| *lonDir*| | EAST or
 
 
 **IMPORTANT!**
-All above data is required!
+All above data are required!
 ````json
 {
   "message": "success",
