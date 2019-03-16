@@ -22,7 +22,7 @@ JUnit | 5.3.2
 Mockito | 2.25.0
 Payara Micro | 5.183
 
-####Other technologies or libraries used in project:
+#### Other technologies or libraries used in project:
 * Maven
 * Docker
 * RestTemplate
@@ -42,7 +42,7 @@ Payara Micro | 5.183
 ### Restpoints specification:
 #### 1. */api/v1/iss/current* 
 Shows current position of the ISS, output:
-````json
+````
 {
   "message": "success", 
   "timestamp": UNIX_TIME_STAMP,
@@ -64,7 +64,7 @@ or error standardized for all endpoints message
 
 #### 2. */api/v1/iss/predict*
 Show predicted overhead passes based on user's IP address
-````json
+````
 {
   "message": "success",
   "timestamp": UNIX_TIME_STAMP,
@@ -81,7 +81,7 @@ Show predicted overhead passes based on user's IP address
   }
 }
 ```` 
-####3. */api/v1/iss/speed*
+#### 3. */api/v1/iss/speed*
 Shows current the ISS moving speed. It's written that average speed 
 is ca. 28.000 Km/h, but it can be different occasionally. 
      
@@ -89,7 +89,7 @@ is ca. 28.000 Km/h, but it can be different occasionally.
 
 I have added little delay in response, approximately 3 seconds, for better measurement precision
 
-````json
+````
 {
   "message": "success",
   "timestamp": UNIX_TIME_STAMP,
@@ -99,9 +99,9 @@ I have added little delay in response, approximately 3 seconds, for better measu
 }
 ````
 
-####4. */api/v1/iss/distanceFromUser*
+#### 4. */api/v1/iss/distanceFromUser*
 Shows current distance between User location (based on IP address) and point over which the ISS is.
-````json
+````
 {
   "message": "success",
   "timestamp": UNIX_TIME_STAMP,
@@ -116,9 +116,9 @@ Shows current distance between User location (based on IP address) and point ove
 }
 ````
 
-####5. */api/v1/iss/totalDistance*
+#### 5. */api/v1/iss/totalDistance*
 Total mileage of the ISS from the start of the application.
-````json
+````
 {
   "message": "success",
   "timestamp": UNIX_TIME_STAMP,
@@ -128,7 +128,7 @@ Total mileage of the ISS from the start of the application.
 }
 ````
 
-####5. */api/v1/iss/distanceFromLocation?lat=<LAT_DEGREES>&latDir=<LAT_DIRECTION>&lon=<LON_DEGREES>&lonDir=<LON_DIRECTION>*
+#### 5. */api/v1/iss/distanceFromLocation?lat=<LAT_DEGREES>&latDir=<LAT_DIRECTION>&lon=<LON_DEGREES>&lonDir=<LON_DIRECTION>*
 Shows current distance between User location (based on given coordinates) and point over which the ISS is.
 
 Input | Description| Query string| Range | VALUES
@@ -141,7 +141,7 @@ LON_DIRECTION|Specifies the east–west position of a point| *lonDir*| | EAST or
 
 **IMPORTANT!**
 All above data are required!
-````json
+````
 {
   "message": "success",
   "timestamp": UNIX_TIME_STAMP,
@@ -154,7 +154,7 @@ All above data are required!
 }
 ````
 
-####6. */api/v1/iss/predictFromCoordinates?lat=<LAT_DEGREES>&latDir=<LAT_DIRECTION>&lon=<LON_DEGREES>&lonDir=<LON_DIRECTION>*
+#### 6. */api/v1/iss/predictFromCoordinates?lat=<LAT_DEGREES>&latDir=<LAT_DIRECTION>&lon=<LON_DEGREES>&lonDir=<LON_DIRECTION>*
 Show predicted overhead passes based on based on given coordinates
 
 Input | Description| Query string| Range | VALUES
@@ -167,7 +167,7 @@ LON_DIRECTION|Specifies the east–west position of a point| *lonDir*| | EAST or
 
 **IMPORTANT!**
 All above data are required!
-````json
+````
 {
   "message": "success",
   "timestamp": UNIX_TIME_STAMP,
