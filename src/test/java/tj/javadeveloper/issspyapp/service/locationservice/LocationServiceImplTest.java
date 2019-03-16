@@ -308,6 +308,6 @@ class LocationServiceImplTest {
         verify(fetchService, Mockito.atLeastOnce()).getLocationDataFromIP(anyString());
         verify(fetchService, Mockito.atLeastOnce()).getPredictedPassFromCoordinates(anyString());
 
-        
+
     }
 }
