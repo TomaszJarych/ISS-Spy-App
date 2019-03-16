@@ -59,7 +59,7 @@ public class LocationServiceImpl implements LocationService {
         ISSLocation issLocation2;
         try {
             issLocation1 = fetchService.getCurrentLocation();
-            Thread.sleep(5000);
+            Thread.sleep(3000);
             issLocation2 = fetchService.getCurrentLocation();
         } catch (InterruptedException e) {
             logger.log(Level.WARNING, "InterruptedException has been thrown IN getCurrentSpeed() Method");
