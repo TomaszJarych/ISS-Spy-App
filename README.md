@@ -8,7 +8,7 @@ RESTFull server application written in JAVA.
 
 ### Technology stack
 
-Library | ver.
+Library | ver
 --------|---------
 Java    | 1.8
 Spring-boot | 2.1.3
@@ -54,7 +54,7 @@ Shows current position of the ISS, output:
 }
 ````
 or error standardized for all endpoints message
-````json
+````
 {
   "message": "failed",
   "timestamp": UNIX_TIME_STAMP,
@@ -82,7 +82,7 @@ Show predicted overhead passes based on user's IP address
 }
 ```` 
 #### 3. */api/v1/iss/speed*
-Shows current the ISS moving speed. It's written that average speed 
+Shows current the ISS moving speed based on two separated measurement. It's written that average speed 
 is ca. 28.000 Km/h, but it can be different occasionally. 
      
 **IMPORTANT!**
