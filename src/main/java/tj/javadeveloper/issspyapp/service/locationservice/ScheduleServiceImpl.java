@@ -8,6 +8,7 @@ import org.springframework.web.client.ResourceAccessException;
 import tj.javadeveloper.issspyapp.domain.dto.LocationDto;
 import tj.javadeveloper.issspyapp.domain.resttempalte.ISSLocation;
 import tj.javadeveloper.issspyapp.mapper.LocationMapper;
+import tj.javadeveloper.issspyapp.repository.LocationEntityRepository;
 import tj.javadeveloper.issspyapp.repository.LocationRepository;
 import tj.javadeveloper.issspyapp.service.resttemplateservice.RestTemplateFetchService;
 
@@ -21,16 +22,19 @@ public class ScheduleServiceImpl implements ScheduleService {
     private final RestTemplateFetchService fetchService;
     private final LocationRepository locationRepository;
     private final LocationMapper locationMapper;
+    private final LocationEntityRepository locationEntityRepository;
 
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-    @Autowired
-    public ScheduleServiceImpl(RestTemplateFetchService fetchService,
-                               LocationRepository locationRepository, LocationMapper locationMapper) {
+    public ScheduleServiceImpl(RestTemplateFetchService fetchService, LocationRepository locationRepository, LocationMapper locationMapper, LocationEntityRepository locationEntityRepository) {
         this.fetchService = fetchService;
         this.locationRepository = locationRepository;
         this.locationMapper = locationMapper;
+        this.locationEntityRepository = locationEntityRepository;
     }
+
+    @Autowired
+
 
     @Scheduled(cron = "*/10 * * * * *")
     public void fetchDataFromOpenNotify() {
@@ -39,7 +43,10 @@ public class ScheduleServiceImpl implements ScheduleService {
             ISSLocation issLocation = fetchService.getCurrentLocation();
             LocationDto dto = locationMapper.toLocationDto(issLocation);
             locationRepository.saveLocation(dto);
+
+            //Todo delete temporary REPOSITORY FROM LIST
             logger.log(Level.INFO, "ISS data has been received from external service");
+            locationEntityRepository.save(locationMapper.toLocationEntity(dto));
         } catch (HttpClientErrorException | ResourceAccessException exception) {
             logger.log(Level.WARNING,
                     "Cannont connect to external source. Data has not been received");

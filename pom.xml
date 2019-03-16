@@ -121,9 +121,9 @@
 
     <profiles>
         <profile>
-            <id>payara</id>
+            <id>payara-microservice</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <build>
                 <plugins>

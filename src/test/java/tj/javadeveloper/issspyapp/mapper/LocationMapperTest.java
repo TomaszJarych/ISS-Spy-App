@@ -3,11 +3,11 @@ package tj.javadeveloper.issspyapp.mapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tj.javadeveloper.issspyapp.domain.dto.LocationDto;
+import tj.javadeveloper.issspyapp.domain.entity.LocationEntity;
 import tj.javadeveloper.issspyapp.domain.resttempalte.GeoCoordinates;
 import tj.javadeveloper.issspyapp.domain.resttempalte.ISSLocation;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class LocationMapperTest {
 
@@ -53,6 +53,62 @@ class LocationMapperTest {
 
         //then
         assertAll(
+                () -> assertEquals(expected.getTime(), actual.getTime()),
+                () -> assertEquals(expected.getLatitude(), actual.getLatitude()),
+                () -> assertEquals(expected.getLongitude(), actual.getLongitude())
+        );
+    }
+
+    @Test
+    void toLocationEntityConverterMethodTest() {
+        //given
+        LocationDto dto = LocationDto.builder()
+                .id(null)
+                .time(timestamp)
+                .latitude(parsedLatitude)
+                .longitude(parsedLongitude)
+                .build();
+        LocationEntity expected = LocationEntity.builder()
+                .id(null)
+                .time(timestamp)
+                .latitude(parsedLatitude)
+                .longitude(parsedLongitude)
+                .build();
+
+        //when
+        LocationEntity actual = mapper.toLocationEntity(dto);
+
+
+        //then
+        assertNotNull(actual);
+        assertAll(
+                () -> assertEquals(expected.getTime(), actual.getTime()),
+                () -> assertEquals(expected.getLatitude(), actual.getLatitude()),
+                () -> assertEquals(expected.getLongitude(), actual.getLongitude())
+        );
+    }
+
+    @Test
+    void toLocationDtoFromLocationEntityConverterMethodTest() {
+        //given
+        LocationEntity entity = LocationEntity.builder()
+                .id(1L)
+                .time(timestamp)
+                .latitude(parsedLatitude)
+                .longitude(parsedLongitude)
+                .build();
+
+        LocationDto expected = LocationDto.builder()
+                .id(1L)
+                .time(timestamp)
+                .latitude(parsedLatitude)
+                .longitude(parsedLongitude)
+                .build();
+        //when
+        LocationDto actual = mapper.fromLocationEntityToLocationDto(entity);
+        assertNotNull(actual);
+        assertAll(
+                () -> assertEquals(expected.getId(), actual.getId()),
                 () -> assertEquals(expected.getTime(), actual.getTime()),
                 () -> assertEquals(expected.getLatitude(), actual.getLatitude()),
                 () -> assertEquals(expected.getLongitude(), actual.getLongitude())
