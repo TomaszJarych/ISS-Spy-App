@@ -39,7 +39,7 @@ Payara Micro | 5.183
 ##### 3. View layer
 * Rest controller
 
-### Restpoints specification:
+### Endpoints specification:
 #### 1. */api/v1/iss/current* 
 Shows current position of the ISS, output:
 ````
