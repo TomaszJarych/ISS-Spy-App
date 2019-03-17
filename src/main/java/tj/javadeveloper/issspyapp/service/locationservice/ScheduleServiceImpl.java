@@ -34,7 +34,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Scheduled(cron = "0 0/1 * * * *")
     public void fetchDataFromOpenNotify() {
-        //Todo change CRON EXPRESSION TO 1/Minute
         try {
             ISSLocation issLocation = fetchService.getCurrentLocation();
             LocationDto dto = locationMapper.toLocationDto(issLocation);

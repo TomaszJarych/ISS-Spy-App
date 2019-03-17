@@ -3,6 +3,7 @@ package tj.javadeveloper.issspyapp.service.locationservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import tj.javadeveloper.issspyapp.commons.exceptions.ExternalServiceConnectionFailedException;
 import tj.javadeveloper.issspyapp.commons.exceptions.InternalServerCustomException;
@@ -71,6 +72,7 @@ public class LocationServiceImpl implements LocationService {
             logger.log(Level.WARNING, message);
             throw new ExternalServiceConnectionFailedException(message);
         }
+
         LocationDto location1 = locationMapper.toLocationDto(issLocation1);
         LocationDto location2 = locationMapper.toLocationDto(issLocation2);
 
@@ -106,6 +108,10 @@ public class LocationServiceImpl implements LocationService {
             String message = "Cannot connect to external source";
             logger.log(Level.WARNING, message);
             throw new ExternalServiceConnectionFailedException(message);
+        } catch (Exception e) {
+            String message = "External server error, pleas check data or try agian later";
+            logger.log(Level.WARNING, message);
+            throw new ExternalServiceConnectionFailedException(message);
         }
         return result;
     }
@@ -131,6 +137,10 @@ public class LocationServiceImpl implements LocationService {
             String message = "Cannot connect to external source";
             logger.log(Level.WARNING, message);
             throw new ExternalServiceConnectionFailedException(message);
+        } catch (Exception e) {
+            String message = "External server error, pleas check data or try agian later";
+            logger.log(Level.WARNING, message);
+            throw new ExternalServiceConnectionFailedException(message);
         }
         return passesDto;
     }
@@ -152,6 +162,10 @@ public class LocationServiceImpl implements LocationService {
             String message = "Cannot connect to external source";
             logger.log(Level.WARNING, message);
             throw new ExternalServiceConnectionFailedException(message);
+        } catch (Exception e) {
+            String message = "External server error, pleas check data or try agian later";
+            logger.log(Level.WARNING, message);
+            throw new ExternalServiceConnectionFailedException(message);
         }
         return result;
     }
@@ -169,6 +183,14 @@ public class LocationServiceImpl implements LocationService {
             throw new ExternalServiceConnectionFailedException(message);
         } catch (ResourceAccessException e) {
             String message = "Cannot connect to external source";
+            logger.log(Level.WARNING, message);
+            throw new ExternalServiceConnectionFailedException(message);
+        } catch (HttpServerErrorException e) {
+            String message = "External server error, please check inserted coordinates";
+            logger.log(Level.WARNING, message);
+            throw new ExternalServiceConnectionFailedException(message);
+        } catch (Exception e) {
+            String message = "External server error, pleas check data or try agian later";
             logger.log(Level.WARNING, message);
             throw new ExternalServiceConnectionFailedException(message);
         }

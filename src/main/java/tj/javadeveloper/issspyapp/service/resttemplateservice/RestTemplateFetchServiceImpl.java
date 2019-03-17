@@ -46,10 +46,8 @@ public class RestTemplateFetchServiceImpl implements RestTemplateFetchService {
     }
 
     public IPLocationData getLocationDataFromIP(String ipAddress) throws HttpClientErrorException, ResourceAccessException {
-        //TODO delete this hardcoded IP address -added only for test purpose
-        String ip = "178.43.255.43";
         IPLocationData locationData = restTemplate
-                .getForObject(LOCATION_FROM_IP_URL + ip, IPLocationData.class);
+                .getForObject(LOCATION_FROM_IP_URL + ipAddress, IPLocationData.class);
         return locationData;
     }
 

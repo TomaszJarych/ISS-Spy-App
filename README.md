@@ -26,11 +26,10 @@ Payara Micro | 5.183
 * Maven
 * Docker
 * RestTemplate
-* Spring Security (disabled CORS and CSRF)
 * Spring Framework scheduling
 
 #### Application consists of three independent layers:
-##### 1. Persistent layer - H2 database where locations of ISS are storage
+##### 1. Persistent layer - H2 database where locations of the ISS are storage
 ##### 2. Business logic layer:
  * services
  * mappers (eg. from entities to dtos)
@@ -53,7 +52,7 @@ Shows current position of the ISS, output:
   }
 }
 ````
-or error standardized for all endpoints message
+or error standardized message for all endpoints
 ````
 {
   "message": "failed",
@@ -81,6 +80,12 @@ Show predicted overhead passes based on user's IP address
   }
 }
 ```` 
+**IMPORTANT!**
+
+This feature only works properly if user's IP address is different than server. When user's IP address is pointed as *localhost* 
+or equivalent, location server returns invalid data and application will throw an exception. As a result request 
+answer will be reported as *failed*. led*. 
+
 #### 3. */api/v1/iss/speed*
 Shows current the ISS moving speed based on two separated measurement. It's written that average speed 
 is ca. 28.000 Km/h, but it can be different occasionally. 
@@ -115,6 +120,12 @@ Shows current distance between User location (based on IP address) and point ove
   }
 }
 ````
+
+**IMPORTANT!**
+
+This feature only works properly if user's IP address is different than server. When user's IP address is pointed as *localhost* 
+or equivalent, location server returns invalid data and application will throw an exception. As a result request 
+answer will be reported as *failed*. 
 
 #### 5. */api/v1/iss/totalDistance*
 Total mileage of the ISS from the start of the application.
@@ -159,7 +170,7 @@ Show predicted overhead passes based on based on given coordinates
 
 Input | Description| Query string| Range | VALUES
 --------|---------|-----|---------|----------|
-LAT_DEGREES| The latitude of the place to predict passes | *lat* | 0-90| DECIMAL 
+LAT_DEGREES| The latitude of the place to predict passes | *lat* | 0-80| DECIMAL 
 LAT_DIRECTION | Specifies the north–south position | *latDir* | |NORTH or SOUTH
 LON_DEGREES | The longitude of the place to predict passes| *lon* | 0-180| DECIMAL
 LON_DIRECTION|Specifies the east–west position of a point| *lonDir*| | EAST or WEST
@@ -183,4 +194,11 @@ All above data are required!
     ]
   }
 }
+````
+### Final notes
+
+
+
+
+
 

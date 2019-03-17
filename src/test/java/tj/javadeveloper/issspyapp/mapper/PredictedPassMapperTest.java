@@ -8,9 +8,7 @@ import tj.javadeveloper.issspyapp.domain.resttempalte.IssPassData;
 import tj.javadeveloper.issspyapp.domain.resttempalte.IssPassRequestData;
 import tj.javadeveloper.issspyapp.domain.resttempalte.IssPredictedPass;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 
@@ -121,6 +119,6 @@ class PredictedPassMapperTest {
     }
 
     private LocalDateTime convertTimeStampToLocalDateTime(Long risetime) {
-        return LocalDateTime.ofInstant(Instant.ofEpochSecond(risetime), ZoneId.systemDefault());
+        return mapper.convertTimeStampToLocalDateTime(risetime);
     }
 }
