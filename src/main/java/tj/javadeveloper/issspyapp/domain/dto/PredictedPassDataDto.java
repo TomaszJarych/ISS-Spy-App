@@ -4,12 +4,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
 
-public class PredictedPassDataDto {
+public class PredictedPassDataDto implements Serializable {
     private Integer duration;
     private LocalDateTime risetime;
 

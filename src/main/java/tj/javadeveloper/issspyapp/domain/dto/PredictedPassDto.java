@@ -4,12 +4,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class PredictedPassDto {
+public class PredictedPassDto implements Serializable {
     private Integer passesNumber;
     private Double latitude;
     private Double longitude;

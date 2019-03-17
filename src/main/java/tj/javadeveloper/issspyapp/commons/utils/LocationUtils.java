@@ -118,10 +118,10 @@ public class LocationUtils {
         String lonDirection = latDir.toUpperCase();
 
         return !(latDirection.matches("(NORTH)|(SOUTH)") || lonDirection.matches("(WEST)|(EAST)")) ||
-                instertedDataNotBlankOrNotNull(lat, latDir, lon, lonDir);
+                insertedDataNotBlankOrNotNull(lat, latDir, lon, lonDir);
     }
 
-    private static boolean instertedDataNotBlankOrNotNull(String lat, String latDir, String lon, String lonDir) {
+    private static boolean insertedDataNotBlankOrNotNull(String lat, String latDir, String lon, String lonDir) {
         return lat.equals("") || lon.equals("") || Objects.isNull(lat) || Objects.isNull(lon) || latDir.equals("") || Objects.isNull(latDir) ||
                 lonDir.equals("") || Objects.isNull(lonDir);
     }

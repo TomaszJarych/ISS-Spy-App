@@ -33,7 +33,7 @@ Payara Micro | 5.183
 ##### 2. Business logic layer:
  * services
  * mappers (eg. from entities to dtos)
- * scheduled service - fetch data from Open Notify server in background
+ * scheduled service - fetch data from Open Notify server in background - **Once per every minute**
  * Global Exception Handler
 ##### 3. View layer
 * Rest controller
