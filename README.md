@@ -84,7 +84,7 @@ Show predicted overhead passes based on user's IP address
 
 This feature only works properly if user's IP address is different than server. When user's IP address is pointed as *localhost* 
 or equivalent, location server returns invalid data and application will throw an exception. As a result request 
-answer will be reported as *failed*. led*. 
+answer will be reported as *failed*.
 
 #### 3. */api/v1/iss/speed*
 Shows current the ISS moving speed based on two separated measurement. It's written that average speed 
@@ -196,6 +196,28 @@ All above data are required!
 }
 ````
 ### Final notes
+
+One of the task condition's is that the applications must easily compile in standard environment.
+I've decided not to use external database management system (eg. MySQL or Postgres), 
+instead I've implemented H2 in-memory database. Major disadvantage of this solution is fact, that all stored data are 
+temporary and will disappear when application is shut down. H2 is easily replaceable for external database server. 
+There is no need to change code, only override applications.properties file.
+
+Application could be run as a standalone .jar environment. When profile **payara-microserver-bundle** is active, *maven package* 
+execution will prepare also FatJar file, whit embedded Payara Micro server. I've prepared also *Dockerfile* and *docker-compose.yml* 
+files using OpenJDK environment for this application.  
+
+Through application development stage I've have try to follow the SOLID and Clean Code rules.
+Every application layer is independent and all required dependencies are delivered through Dependency Injection.
+All methods are designed with Single Responsibility Principle, service layer is described by Interfaces, so future improvements 
+can be easily applied.
+
+I've attached also INSOMNIA file with endpoints testing environment. 
+**Testing endpoints which depends on external IP address location server will throw exception
+if user's IP address is specified as *localhost*. Fot this reason test this endpoints with hardcoded IP value or use endpoints based on given coordinates.
+Underneath logic is the same, and output will be equivalent.**
+
+    
 
 
 
