@@ -138,7 +138,7 @@ public class LocationServiceImpl implements LocationService {
             logger.log(Level.WARNING, message);
             throw new ExternalServiceConnectionFailedException(message);
         } catch (Exception e) {
-            String message = "External server error, pleas check data or try agian later";
+            String message = "External server error, pleas check data or try again later";
             logger.log(Level.WARNING, message);
             throw new ExternalServiceConnectionFailedException(message);
         }
@@ -163,7 +163,7 @@ public class LocationServiceImpl implements LocationService {
             logger.log(Level.WARNING, message);
             throw new ExternalServiceConnectionFailedException(message);
         } catch (Exception e) {
-            String message = "External server error, pleas check data or try agian later";
+            String message = "External server error, pleas check data or try again later";
             logger.log(Level.WARNING, message);
             throw new ExternalServiceConnectionFailedException(message);
         }
@@ -190,7 +190,7 @@ public class LocationServiceImpl implements LocationService {
             logger.log(Level.WARNING, message);
             throw new ExternalServiceConnectionFailedException(message);
         } catch (Exception e) {
-            String message = "External server error, pleas check data or try agian later";
+            String message = "External server error, pleas check data or try again later";
             logger.log(Level.WARNING, message);
             throw new ExternalServiceConnectionFailedException(message);
         }

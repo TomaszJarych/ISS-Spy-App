@@ -41,7 +41,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             locationEntityRepository.save(locationMapper.toLocationEntity(dto));
         } catch (HttpClientErrorException | ResourceAccessException exception) {
             logger.log(Level.WARNING,
-                    "Cannont connect to external source. Data has not been received");
+                    "Cannot connect to external source. Data has not been received");
         }
     }
 }

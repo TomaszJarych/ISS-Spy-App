@@ -51,9 +51,9 @@ public class ISSRestController {
 
     @GetMapping(path = "/distanceFromUser", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity getDistanceFromIssAndUser(HttpServletRequest servletRequest) {
-        String ipAddres = LocationUtils.getIPFromRequest(servletRequest);
+        String ipAddress = LocationUtils.getIPFromRequest(servletRequest);
         UserLocationResult userLocationResult =
-                locationService.getDistanceBetweenUserLocationAndIss(ipAddres);
+                locationService.getDistanceBetweenUserLocationAndIss(ipAddress);
 
         return ResponseEntity.ok(ResultWrapper.ok(userLocationResult));
     }
@@ -65,7 +65,7 @@ public class ISSRestController {
     }
 
     @GetMapping(path = "/distanceFromLocation", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity getDistanceFromGivenCoorinates
+    public ResponseEntity getDistanceFromGivenCoordinates
             (@RequestParam(name = "lat", required = true) String lat,
              @RequestParam(name = "latDir", required = true) String latDir,
              @RequestParam(name = "lon", required = true) String lon,
@@ -75,7 +75,7 @@ public class ISSRestController {
     }
 
     @GetMapping(path = "/predictFromCoordinates", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity getOverheadPassesFromGivenCoorinates
+    public ResponseEntity getOverheadPassesFromGivenCoordinates
             (@RequestParam(name = "lat", required = true) String lat,
              @RequestParam(name = "latDir", required = true) String latDir,
              @RequestParam(name = "lon", required = true) String lon,

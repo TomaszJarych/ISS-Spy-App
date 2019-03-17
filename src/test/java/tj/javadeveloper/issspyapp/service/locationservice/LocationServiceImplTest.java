@@ -87,7 +87,7 @@ class LocationServiceImplTest {
     }
 
     @Test
-    void getCurrentLocationMethodTestShouldThrowExceptionWhenFetchServiceThrowsResourcessAccessException() {
+    void getCurrentLocationMethodTestShouldThrowExceptionWhenFetchServiceThrowsResourcesAccessException() {
         //when
         when(fetchService.getCurrentLocation()).thenThrow(ResourceAccessException.class);
         //then
