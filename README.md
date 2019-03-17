@@ -215,7 +215,7 @@ can be easily applied.
 I've attached also INSOMNIA file with endpoints testing environment. 
 **Testing endpoints which depends on external IP address location server will throw exception
 if user's IP address is specified as *localhost*. Fot this reason test this endpoints with hardcoded IP value or use endpoints based on given coordinates.
-Underneath logic is the same, and output will be equivalent.**
+Underneath logic is the same and output will be equivalent.**
 
     
 
